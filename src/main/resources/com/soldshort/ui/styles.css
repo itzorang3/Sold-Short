@@ -1,0 +1,342 @@
+/* ============================================================
+   Sold Short — JavaFX Stylesheet
+   Dark trading-desk theme: navy background, red/green accents
+   ============================================================ */
+
+/* ── Root & Backgrounds ───────────────────────────────────── */
+.root {
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: #0f1117;
+}
+
+.root-pane {
+    -fx-background-color: #0f1117;
+}
+
+.card {
+    -fx-background-color: #1a1f2e;
+    -fx-background-radius: 10;
+    -fx-border-color: #2a3047;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 10, 0, 0, 2);
+}
+
+.side-panel {
+    -fx-background-color: #141824;
+    -fx-border-color: #2a3047;
+    -fx-border-width: 0 1 0 0;
+}
+
+.top-bar {
+    -fx-background-color: #141824;
+    -fx-border-color: #2a3047;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 14 24 14 24;
+    -fx-spacing: 16;
+}
+
+.league-card {
+    -fx-background-color: #1a1f2e;
+    -fx-background-radius: 8;
+    -fx-border-color: #2a3047;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 12 16 12 16;
+}
+
+.league-card:hover {
+    -fx-border-color: #e94560;
+    -fx-effect: dropshadow(gaussian, rgba(233,69,96,0.2), 8, 0, 0, 0);
+}
+
+/* ── Typography ───────────────────────────────────────────── */
+.title-label {
+    -fx-text-fill: #e94560;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 4;
+}
+
+.nav-title {
+    -fx-text-fill: #e94560;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 2;
+}
+
+.subtitle-label {
+    -fx-text-fill: #8892a4;
+    -fx-font-size: 13px;
+}
+
+.section-label {
+    -fx-text-fill: #c0c8d8;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.hint-label {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 13px;
+}
+
+.league-name-label {
+    -fx-text-fill: #dde3ee;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.ticker-label {
+    -fx-text-fill: #e94560;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.table-header {
+    -fx-text-fill: #8892a4;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.winner-label {
+    -fx-text-fill: #ffd700;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 0 12 0;
+}
+
+/* ── Status Labels ─────────────────────────────────────────── */
+.status-label {
+    -fx-text-fill: #8892a4;
+    -fx-font-size: 12px;
+}
+
+.status-label.error {
+    -fx-text-fill: #e94560;
+}
+
+.status-label.success {
+    -fx-text-fill: #4caf50;
+}
+
+/* ── Inputs ───────────────────────────────────────────────── */
+.text-field {
+    -fx-background-color: #0f1117;
+    -fx-text-fill: #dde3ee;
+    -fx-prompt-text-fill: #3d4455;
+    -fx-border-color: #2a3047;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8 12 8 12;
+    -fx-font-size: 13px;
+}
+
+.text-field:focused {
+    -fx-border-color: #e94560;
+    -fx-effect: dropshadow(gaussian, rgba(233,69,96,0.25), 6, 0, 0, 0);
+}
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.primary-btn {
+    -fx-background-color: #e94560;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-background-radius: 6;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+}
+
+.primary-btn:hover {
+    -fx-background-color: #c73652;
+    -fx-effect: dropshadow(gaussian, rgba(233,69,96,0.4), 8, 0, 0, 0);
+}
+
+.primary-btn:disabled {
+    -fx-opacity: 0.4;
+}
+
+.secondary-btn {
+    -fx-background-color: #1a1f2e;
+    -fx-text-fill: #c0c8d8;
+    -fx-font-size: 13px;
+    -fx-background-radius: 6;
+    -fx-border-color: #2a3047;
+    -fx-border-radius: 6;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+}
+
+.secondary-btn:hover {
+    -fx-border-color: #e94560;
+    -fx-text-fill: #e94560;
+}
+
+.link {
+    -fx-text-fill: #e94560;
+    -fx-font-size: 12px;
+}
+
+.remove-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3d4455;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-padding: 4 8 4 8;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+}
+
+.remove-btn:hover {
+    -fx-background-color: rgba(233,69,96,0.15);
+    -fx-text-fill: #e94560;
+}
+
+/* ── Draft Board Cards ────────────────────────────────────── */
+.draft-card-done {
+    -fx-background-color: #1a2e20;
+    -fx-background-radius: 6;
+    -fx-border-color: #4caf50;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+}
+
+.draft-card-waiting {
+    -fx-background-color: #1a1f2e;
+    -fx-background-radius: 6;
+    -fx-border-color: #2a3047;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+}
+
+/* ── Turn Order Indicators ────────────────────────────────── */
+.indicator-active {
+    -fx-text-fill: #e94560;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.indicator-done {
+    -fx-text-fill: #4caf50;
+    -fx-font-size: 14px;
+}
+
+.indicator-wait {
+    -fx-text-fill: #3d4455;
+    -fx-font-size: 14px;
+}
+
+.turn-name-active {
+    -fx-text-fill: #e94560;
+    -fx-font-weight: bold;
+}
+
+.turn-name {
+    -fx-text-fill: #8892a4;
+}
+
+/* ── Tables ───────────────────────────────────────────────── */
+.stock-table {
+    -fx-background-color: #0f1117;
+    -fx-border-color: #2a3047;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.stock-table .column-header-background {
+    -fx-background-color: #141824;
+}
+
+.stock-table .column-header .label {
+    -fx-text-fill: #8892a4;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.stock-table .table-row-cell {
+    -fx-background-color: #0f1117;
+    -fx-text-fill: #dde3ee;
+    -fx-font-size: 14px;
+    -fx-border-color: transparent transparent #1a1f2e transparent;
+}
+
+.stock-table .table-row-cell:odd {
+    -fx-background-color: #121620;
+}
+
+.stock-table .table-row-cell:hover {
+    -fx-background-color: #1a1f2e;
+}
+
+.stock-table .table-row-cell:selected {
+    -fx-background-color: #2a1f35;
+    -fx-border-color: transparent transparent #e94560 transparent;
+}
+
+.stock-table .table-cell {
+    -fx-text-fill: #dde3ee;
+}
+
+/* ── Separator ────────────────────────────────────────────── */
+.separator *.line {
+    -fx-border-color: #2a3047;
+    -fx-border-width: 0.5;
+}
+
+/* ── Spinner ──────────────────────────────────────────────── */
+.spinner {
+    -fx-background-color: #0f1117;
+    -fx-border-color: #2a3047;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+/* ── ScrollPane ───────────────────────────────────────────── */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* ── Dialog / Alert ───────────────────────────────────────── */
+.dialog-pane {
+    -fx-background-color: #1a1f2e;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #141824;
+}
+
+.dialog-pane .label {
+    -fx-text-fill: #dde3ee;
+}
+
+/* ── In-Window Overlay Cards ──────────────────────────────────────────── */
+.overlay-card {
+    -fx-background-color: #1a1f2e;
+    -fx-background-radius: 12;
+    -fx-border-color: #2a3047;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 28 32 28 32;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.65), 32, 0, 0, 6);
+}
+
+/* ── Lives / Hearts Display ───────────────────────────────────────────── */
+.lives-label {
+    -fx-text-fill: #e94560;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.lives-label.safe {
+    -fx-text-fill: #4caf50;
+}
+
+.lives-label.warning {
+    -fx-text-fill: #ffd700;
+}

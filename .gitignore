@@ -1,0 +1,44 @@
+# Build output
+target/
+build/
+out/
+*.class
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+nbproject/
+nbactions.xml
+nb-configuration.xml
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Local SQLite database (created at runtime)
+soldshort.db
+*.db-journal
+
+# Temp / backup files
+*~
+*.bak
+*.swp
+~$*
+*.tmp
+"server/" 
