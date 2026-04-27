@@ -24,8 +24,13 @@ public class AppConfig {
      * on startup.  Falls back to hard-coded seed prices if the network is
      * unavailable.
      */
+    /**
+     * Shared market data provider — declared as LiveMarketProvider (not the base
+     * class) so Spring's scheduler post-processor can discover the @Scheduled
+     * method on the concrete type and register it automatically.
+     */
     @Bean
-    public ManualMarketSimulator market() {
+    public LiveMarketProvider market() {
         return new LiveMarketProvider();
     }
 
@@ -34,7 +39,7 @@ public class AppConfig {
      * snapshotting at round boundaries.
      */
     @Bean
-    public LeagueDraftManager draftManager(ManualMarketSimulator market) {
+    public LeagueDraftManager draftManager(LiveMarketProvider market) {
         return new LeagueDraftManager(market);
     }
 
