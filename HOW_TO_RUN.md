@@ -2,58 +2,86 @@
 
 ---
 
-## Quick Start (Online Multiplayer — Recommended)
+## Quick Start — Windows (Recommended)
+
+**All you need: Java 17+ and Maven 3.8+**
+
+```cmd
+git clone -b main https://github.com/itzorang3/Sold-Short.git
+cd Sold-Short
+run.bat
+```
+
+That's it. `run.bat` automatically:
+- Builds the fat JAR with Maven if it isn't already built
+- Sets the Railway server URL so you connect to the live server
+- Launches the app
+
+> **Java 17+** → https://adoptium.net  
+> **Maven 3.8+** → https://maven.apache.org  
+> Verify installs: `java -version` and `mvn -version` in any terminal.
+
+---
+
+## Quick Start — Mac / Linux
+
+```bash
+git clone -b main https://github.com/itzorang3/Sold-Short.git
+cd Sold-Short
+mvn clean package -DskipTests
+bash run.sh
+```
+
+`run.sh` sets the Railway URL and launches the JAR automatically.
+
+---
+
+## Quick Start (Online Multiplayer — General)
 
 Sold Short uses a client-server architecture. One person runs (or deploys) the server,
 and everyone else just needs the `sold-short-fat.jar` client pointed at that server.
 
-The server is already deployed on Railway — ask the host for the URL, then skip to
-**Running the Client** below.
+The server is already deployed on Railway — the `run.bat` / `run.sh` scripts point to it
+automatically. No manual URL setup needed.
 
 **Full deployment instructions → see `SERVER_SETUP.md`**
 
 ---
 
-## Running the Client
+## Running the Client (Manual)
 
 ### Prerequisites
 - **Java 17 or newer** — download from https://adoptium.net if not installed
   - Verify: open a terminal and run `java -version`
+- **Maven 3.8 or newer** — download from https://maven.apache.org
+  - Verify: `mvn -version`
 
 ### Steps
 
-1. **Build the client JAR** (only needed if starting from source):
+1. **Build the client JAR:**
    ```
    mvn clean package -DskipTests
    ```
    This creates `target/sold-short-fat.jar`.
 
-2. **Set the server URL:**
+2. **Launch using the provided script (recommended):**
+   - Windows — double-click `run.bat` or run it from any terminal
+   - Mac / Linux — `bash run.sh`
+
+   The scripts set `SERVER_URL` automatically. To connect to a different server, edit the URL inside `run.bat` or `run.sh` before running.
+
+3. **Or launch manually** (sets URL for this terminal session only):
 
    Windows (Command Prompt):
    ```cmd
-   set SERVER_URL=https://your-app.up.railway.app
-   ```
-   Windows (PowerShell):
-   ```powershell
-   $env:SERVER_URL="https://your-app.up.railway.app"
+   set SERVER_URL=https://sold-short-production.up.railway.app
+   java -jar target/sold-short-fat.jar
    ```
    Mac / Linux:
    ```bash
-   export SERVER_URL=https://your-app.up.railway.app
-   ```
-   If the server is running locally, you can skip this step — it defaults to `http://localhost:8080`.
-
-   > **Important:** The `set` / `export` command only persists for the current terminal session.
-   > Run the JAR from the same window immediately after setting the variable.
-
-3. **Launch the client** (run this in the same terminal window):
-   ```
+   export SERVER_URL=https://sold-short-production.up.railway.app
    java -jar target/sold-short-fat.jar
    ```
-   Or use the provided scripts:
-   - Windows — `run.bat`
-   - Mac / Linux — `bash run.sh`
 
 ---
 

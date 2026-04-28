@@ -34,19 +34,32 @@ Players draft stocks in a league and compete round-by-round; the worst-performin
 
 ## Run It
 
-The quickest way to play:
+**Prerequisites:** [Java 17+](https://adoptium.net) and [Maven 3.8+](https://maven.apache.org)
+
+### Windows — one command after cloning
+
+```cmd
+git clone -b main https://github.com/itzorang3/Sold-Short.git
+cd Sold-Short
+run.bat
+```
+
+`run.bat` handles everything: builds the JAR if it doesn't exist, sets the Railway server URL automatically, and launches the app. Just double-click it or run it from any terminal.
+
+### Mac / Linux
 
 ```bash
-# Everyone: build the client JAR once
+git clone -b main https://github.com/itzorang3/Sold-Short.git
+cd Sold-Short
 mvn clean package -DskipTests
-
-# Set the server URL (use the Railway URL, or localhost:8080 for local dev)
-# Windows
-set SERVER_URL=https://your-app.up.railway.app
-# Mac / Linux
-export SERVER_URL=https://your-app.up.railway.app
-
+export SERVER_URL=https://sold-short-production.up.railway.app
 java -jar target/sold-short-fat.jar
 ```
 
-See `HOW_TO_RUN.md` for full setup and `SERVER_SETUP.md` for deploying the server.
+Or use the included script:
+
+```bash
+bash run.sh
+```
+
+See `HOW_TO_RUN.md` for full setup details and `SERVER_SETUP.md` for deploying the server.
