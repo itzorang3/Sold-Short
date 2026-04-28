@@ -177,18 +177,23 @@ public class HostControlScreen {
         statusLabel.getStyleClass().add("status-label");
         statusLabel.setWrapText(true);
 
-        Button evalBtn = new Button("Evaluate Round →");
+        Button evalBtn = new Button("Review & Evaluate →");
         evalBtn.getStyleClass().add("primary-btn");
-        evalBtn.setOnAction(e -> handleEvaluate(statusLabel, evalBtn));
+        evalBtn.setOnAction(e -> handleReviewPrices(statusLabel, evalBtn));
 
         content.getChildren().addAll(instruction, grid, new Separator(), statusLabel, evalBtn);
         return content;
     }
 
-    // ── Evaluation Handler ────────────────────────────────────────────────────
+    // ── Price Review Overlay ──────────────────────────────────────────────────
 
-    private void handleEvaluate(Label statusLabel, Button evalBtn) {
-        // Validate all price inputs
+    /**
+     * Validates the entered prices, then shows a confirmation overlay with a
+     * before/after summary table.  The host must click "Confirm & Evaluate" to
+     * actually commit the round.
+     */
+    private void handleReviewPrices(Label statusLabel, Button evalBtn) {
+        // Validate first — same logic as handleEvaluate
         Map<String, Double> prices = new LinkedHashMap<>();
         for (Map.Entry<String, TextField> entry : priceFields.entrySet()) {
             String ticker = entry.getKey();
@@ -204,6 +209,96 @@ public class HostControlScreen {
             }
         }
 
+        // Build confirmation overlay
+        VBox overlay = new VBox(16);
+        overlay.getStyleClass().add("overlay-card");
+        overlay.setMaxWidth(600);
+
+        Label header = new Label("Confirm Prices  —  Round " + league.getCurrentRound());
+        header.setStyle("-fx-text-fill: #dde3ee; -fx-font-size: 16px; -fx-font-weight: bold;");
+        overlay.getChildren().add(header);
+
+        Label hint = new Label(
+                "Review the prices below before committing. "
+                + "These will be applied to score Round " + league.getCurrentRound() + ".");
+        hint.setStyle("-fx-text-fill: #8892a4; -fx-font-size: 13px;");
+        hint.setWrapText(true);
+        overlay.getChildren().add(hint);
+
+        GridPane reviewGrid = new GridPane();
+        reviewGrid.setHgap(20); reviewGrid.setVgap(10);
+        reviewGrid.add(styledLabel("Ticker",      "#8892a4"), 0, 0);
+        reviewGrid.add(styledLabel("Company",     "#8892a4"), 1, 0);
+        reviewGrid.add(styledLabel("Prev. Price", "#8892a4"), 2, 0);
+        reviewGrid.add(styledLabel("New Price",   "#8892a4"), 3, 0);
+        reviewGrid.add(styledLabel("Change",      "#8892a4"), 4, 0);
+
+        reviewGrid.getColumnConstraints().addAll(
+                new ColumnConstraints(80),
+                new ColumnConstraints(190),
+                new ColumnConstraints(90),
+                new ColumnConstraints(90),
+                new ColumnConstraints(90));
+
+        int row = 1;
+        for (Map.Entry<String, Double> entry : prices.entrySet()) {
+            String ticker   = entry.getKey();
+            double newPrice = entry.getValue();
+            StockInfo info  = stockInfoMap.getOrDefault(ticker,
+                    new StockInfo(ticker, ticker, 0, 0));
+            double prevPrice = info.previousPrice;
+            double pct       = (prevPrice > 0) ? ((newPrice - prevPrice) / prevPrice) * 100.0 : 0.0;
+            String pctStr    = (prevPrice > 0) ? String.format("%+.2f%%", pct) : "—";
+            String pctColor  = (pct > 0) ? "#e94560" : (pct < 0 ? "#4caf50" : "#8892a4");
+
+            reviewGrid.add(styledLabel(ticker,                           "#dde3ee"), 0, row);
+            reviewGrid.add(styledLabel(info.companyName,                 "#8892a4"), 1, row);
+            reviewGrid.add(styledLabel(String.format("$%.2f", prevPrice),"#8892a4"), 2, row);
+            reviewGrid.add(styledLabel(String.format("$%.2f", newPrice), "#dde3ee"), 3, row);
+            reviewGrid.add(styledLabel(pctStr,                           pctColor),  4, row);
+            row++;
+        }
+
+        ScrollPane gridScroll = new ScrollPane(reviewGrid);
+        gridScroll.setFitToWidth(true);
+        gridScroll.setFitToHeight(false);
+        gridScroll.setPrefViewportHeight(Math.min(prices.size() * 32 + 44, 280));
+        gridScroll.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+        overlay.getChildren().add(gridScroll);
+
+        overlay.getChildren().add(new Separator());
+
+        Button confirmBtn = new Button("Confirm & Evaluate →");
+        confirmBtn.getStyleClass().add("primary-btn");
+
+        Button backBtn = new Button("← Go Back");
+        backBtn.getStyleClass().add("secondary-btn");
+        backBtn.setOnAction(ev -> MainApp.hideOverlay());
+
+        HBox btnRow = new HBox(12, confirmBtn, backBtn);
+        btnRow.setAlignment(Pos.CENTER_RIGHT);
+        overlay.getChildren().add(btnRow);
+
+        Label overlayStatus = new Label("");
+        overlayStatus.getStyleClass().add("status-label");
+        overlayStatus.setWrapText(true);
+        overlay.getChildren().add(overlayStatus);
+
+        confirmBtn.setOnAction(ev -> {
+            confirmBtn.setDisable(true);
+            backBtn.setDisable(true);
+            overlayStatus.setText("Evaluating…");
+            overlayStatus.getStyleClass().setAll("status-label");
+            handleEvaluate(overlayStatus, confirmBtn, prices);
+        });
+
+        MainApp.showOverlay(overlay);
+    }
+
+    // ── Evaluation Handler ────────────────────────────────────────────────────
+
+    /** Called from the confirmation overlay with pre-validated prices. */
+    private void handleEvaluate(Label statusLabel, Button evalBtn, Map<String, Double> prices) {
         evalBtn.setDisable(true);
         statusLabel.setText("Evaluating…");
         statusLabel.getStyleClass().setAll("status-label");

@@ -5,6 +5,7 @@ import com.soldshort.api.ApiClient.StockInfo;
 import com.soldshort.models.DraftPick;
 import com.soldshort.models.League;
 import com.soldshort.models.User;
+import com.soldshort.observer.LeaderboardEntry;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -210,6 +211,23 @@ public class DraftScreen {
         panel.setPadding(new Insets(24));
 
         int     round        = league.getCurrentRound();
+
+        // Check elimination first — eliminated players are spectators only
+        List<User> activeMembers = ApiClient.get().getActiveMembers(league.getId());
+        boolean isEliminated = activeMembers.stream()
+                .noneMatch(u -> u.getId() == currentUser.getId());
+        if (isEliminated) {
+            Label title = new Label("Round " + round + "  —  You Have Been Eliminated");
+            title.getStyleClass().add("section-label");
+            Label msg = new Label(
+                    "You were eliminated and cannot pick this round. "
+                    + "Watch the remaining players compete!");
+            msg.getStyleClass().add("hint-label");
+            msg.setWrapText(true);
+            panel.getChildren().addAll(title, msg);
+            return panel;
+        }
+
         boolean alreadyPicked = ApiClient.get().getPickForUser(
                 league.getId(), currentUser.getId(), round) != null;
         boolean allDone      = ApiClient.get().allPicksSubmitted(league.getId(), round);
@@ -389,8 +407,20 @@ public class DraftScreen {
         String loserName = (loser != null) ? loser.getUsername() : "?";
         String pctStr   = String.format("%+.2f%%", worstPct);
 
+        // Check whether the loser was actually eliminated in the previous round
+        boolean wasEliminated = ApiClient.get().getLeaderboard(league.getId())
+                .stream()
+                .filter(e -> e.getUserId() == worstPick.getUserId())
+                .findFirst()
+                .map(e -> e.getEliminationRound() == prevRound)
+                .orElse(false);
+
+        String outcomeText = wasEliminated
+                ? loserName + " was eliminated"
+                : loserName + " lost a life";
+
         Label recap = new Label(
-                "🔙  Last round: " + loserName + " lost a life — "
+                "🔙  Last round: " + outcomeText + " — "
                 + worstPick.getTicker() + " was the worst short at " + pctStr + ".");
         recap.getStyleClass().add("hint-label");
         recap.setStyle(

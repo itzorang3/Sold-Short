@@ -49,12 +49,21 @@ public class MainMenuScreen {
         Label userLabel = new Label("Logged in as: " + currentUser.getUsername());
         userLabel.getStyleClass().add("hint-label");
 
+        Button refreshBtn = new Button("⟳ Refresh");
+        refreshBtn.getStyleClass().add("secondary-btn");
+        refreshBtn.setOnAction(e -> {
+            refreshBtn.setDisable(true);
+            new Thread(() -> Platform.runLater(() -> {
+                MainApp.showMainMenu();
+            })).start();
+        });
+
         Button logoutBtn = new Button("Logout");
         logoutBtn.getStyleClass().add("secondary-btn");
         logoutBtn.setOnAction(e -> { MainApp.setCurrentUser(null); MainApp.showLoginScreen(); });
 
         topBar.getChildren().addAll(appTitle, spacer, userLabel,
-                new Separator(javafx.geometry.Orientation.VERTICAL), logoutBtn);
+                new Separator(javafx.geometry.Orientation.VERTICAL), refreshBtn, logoutBtn);
         root.setTop(topBar);
 
         // Content
