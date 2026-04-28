@@ -2,6 +2,7 @@
 setlocal
 
 set JAR=target\sold-short-fat.jar
+set SERVER_URL=https://sold-short-production.up.railway.app
 
 if not exist "%JAR%" (
     echo.
