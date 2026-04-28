@@ -173,6 +173,15 @@ public class LeagueDraftManager {
      * @return the saved DraftPick, or null if validation failed
      */
     public DraftPick submitPick(int leagueId, int round, int userId, String ticker) {
+        // Stage 0: player must be an active (non-eliminated) member of the league
+        boolean isActive = dataManager.getActiveMembers(leagueId)
+                .stream().anyMatch(u -> u.getId() == userId);
+        if (!isActive) {
+            System.err.println("submitPick: player " + userId + " is eliminated or not in league "
+                    + leagueId + " — pick rejected.");
+            return null;
+        }
+
         // Stage 1: player hasn't already picked this round
         if (dataManager.getPickForUser(leagueId, userId, round) != null) {
             System.err.println("submitPick: player " + userId + " already picked this round.");
