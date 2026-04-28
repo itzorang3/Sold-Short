@@ -403,6 +403,7 @@ public class DraftScreen {
 
         if (worstPick == null) return java.util.Optional.empty();
 
+        final DraftPick finalWorstPick = worstPick;
         User   loser    = ApiClient.get().getUserById(worstPick.getUserId());
         String loserName = (loser != null) ? loser.getUsername() : "?";
         String pctStr   = String.format("%+.2f%%", worstPct);
@@ -410,7 +411,7 @@ public class DraftScreen {
         // Check whether the loser was actually eliminated in the previous round
         boolean wasEliminated = ApiClient.get().getLeaderboard(league.getId())
                 .stream()
-                .filter(e -> e.getUserId() == worstPick.getUserId())
+                .filter(e -> e.getUserId() == finalWorstPick.getUserId())
                 .findFirst()
                 .map(e -> e.getEliminationRound() == prevRound)
                 .orElse(false);
